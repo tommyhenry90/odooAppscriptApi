@@ -41,7 +41,7 @@ function authenticateOdoo(dbName, url, username, password, opt_port) {
 }
 
 /**
- * create data in odoo specified odoo objet.
+ * create record in odoo specified odoo object.
  *
  * @param {object} odooAuth Object
  * @param {string} the name of the object in odoo eg res.partner
@@ -49,7 +49,7 @@ function authenticateOdoo(dbName, url, username, password, opt_port) {
  *
  * @return {string} result of create request from odoo
  */
-function create(odooAuth, odooObject, data) {
+function createRecord(odooAuth, odooObject, data) {
   
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
   
