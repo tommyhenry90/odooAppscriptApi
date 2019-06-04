@@ -66,3 +66,76 @@ function create(odooAuth, odooObject, data) {
   var response = request.send().parseXML();
   return response
 }
+
+/* Read record
+@param {object} odooAuth Object
+@param {string} the name of the object in odoo eg res.partner
+@param {string} id of record to read
+@param {opt_filter} specific view of the items to return
+
+@return {string} result of create request from odoo 
+ */
+function readRecord(odooAuth, odooObject, id, opt_filter) {
+  var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
+  var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
+  
+  request.addParam(odooAuth.dbName);
+  request.addParam(odooAuth.userId);
+  request.addParam(odooAuth.password);
+  
+  request.addParam(odooObject);
+  request.addParam("read");
+  request.addParam([id]);
+  if (opt_filter != null) {
+    request.addParam(opt_filter);
+  }
+  var response = request.send().parseXML();
+  return response
+}
+
+/* Update record
+@param {object} odooAuth Object
+@param {string} the name of the object in odoo eg res.partner
+@param {string} id of record to update
+@param {object} dict of records to update
+
+@return {string} result of create request from odoo 
+ */
+function updateRecord(odooAuth, odooObject, id, odooFilter) {
+  var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
+  var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
+  
+  request.addParam(odooAuth.dbName);
+  request.addParam(odooAuth.userId);
+  request.addParam(odooAuth.password);
+  
+  request.addParam(odooObject);
+  request.addParam("write");
+  request.addParam([id, odooFilter]);
+  
+  var response = request.send().parseXML();
+  return response
+}
+
+/* Delete record
+@param {object} odooAuth Object
+@param {string} the name of the object in odoo eg res.partner
+@param {string} id of record to update
+
+@return {string} result of delete request from odoo 
+ */
+function deleteRecord(odooAuth, odooObject, id) {
+  var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
+  var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
+  
+  request.addParam(odooAuth.dbName);
+  request.addParam(odooAuth.userId);
+  request.addParam(odooAuth.password);
+  
+  request.addParam(odooObject);
+  request.addParam("unlink");
+  request.addParam([id]);
+  
+  var response = request.send().parseXML();
+  return response
+}
