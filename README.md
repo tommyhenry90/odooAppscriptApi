@@ -22,6 +22,9 @@ function testOdooApi() {
   var contactEmail = "tony@starkindustries.com";
   var contactPhone = "555-555-555";
   
+  // Check connection and print result
+  Logger.log(odooApi.testConnection(db, url));
+  
   // Authenticate user and specify database details
   var odooAuth = odooApi.authenticateOdoo(db, url, usr, pwd);
   var data = [{
