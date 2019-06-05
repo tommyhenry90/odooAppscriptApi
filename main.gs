@@ -99,7 +99,7 @@ function readRecord(odooAuth, odooObject, id, opt_filter) {
 @param {string} id of record to update
 @param {object} dict of records to update
 
-@return {string} result of create request from odoo 
+@return {boolean} true if record updates successfully 
  */
 function updateRecord(odooAuth, odooObject, id, odooFilter) {
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
@@ -122,7 +122,7 @@ function updateRecord(odooAuth, odooObject, id, odooFilter) {
 @param {string} the name of the object in odoo eg res.partner
 @param {string} id of record to update
 
-@return {string} result of delete request from odoo 
+@return {integer} id of record deleted
  */
 function deleteRecord(odooAuth, odooObject, id) {
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
@@ -134,8 +134,8 @@ function deleteRecord(odooAuth, odooObject, id) {
   
   request.addParam(odooObject);
   request.addParam("unlink");
-  request.addParam([id]);
+  request.addParam([[id]]);
   
-  var response = request.send().parseXML();
-  return response
+  request.send().parseXML();
+  return id;
 }
