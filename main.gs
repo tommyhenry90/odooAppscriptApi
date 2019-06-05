@@ -1,4 +1,27 @@
 /**
+ * Test Connection to Odoo Database
+ *
+ * @param {string}  dbName the name of the database we are connecting to 
+ * @param {string}  url the url of the odoo database
+ * @param {integer} optional port number of database - ignore if using online
+ *
+ * @return {string} details of odoo version if conenction successful
+ */
+function testConnection(dbName, url, opt_port) {
+  // determine correct port method type or use one set by user
+  if (opt_port == null) {
+    if (url.substring(0, 5) == "https") {
+      opt_port = 443;
+    } else {
+      opt_port = 80;
+    }
+  }
+  var urlCommon = url + ":" + opt_port + "/xmlrpc/2/common";
+  var request = new XMLRPC.XmlRpcRequest(urlCommon, "version");
+  return request.send().parseXML();
+}
+  
+/**
  * Authenticates User and return user id.
  *
  * @param {string}  dbName the name of the database we are connecting to 
@@ -10,13 +33,17 @@
  * @return {odooAuth} object with login details
  */
 function authenticateOdoo(dbName, url, username, password, opt_port) {
-  // assume port 80 (http) if not specified by user
+  // determine correct port method type or use one set by user
   if (opt_port == null) {
-    opt_port = 80;
+    if (url.substring(0, 5) == "https") {
+      opt_port = 443;
+    } else {
+      opt_port = 80;
+    }
   }
+  var urlCommon = url + ":" + opt_port + "/xmlrpc/2/common";
   
   // Connect to odoo common end point for authentication
-  var urlCommon = url + ":" + opt_port + "/xmlrpc/2/common";
   var request = new XMLRPC.XmlRpcRequest(urlCommon, "authenticate");
   
   // add required elements to authentication call
