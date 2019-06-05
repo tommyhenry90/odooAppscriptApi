@@ -6,7 +6,7 @@ To use in your google appscript project, open your project in the apps script ed
 ```code
 Mz85GDFoKyx2elkECWYElEvQMf9HPR6wp
 ```
-
+## Usage
 Example of usage in apps script:
 
 ```javascript
