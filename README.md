@@ -41,8 +41,17 @@ function testOdooApi() {
   var recordId = odooApi.createRecord(odooAuth, "crm.lead", data);
   Logger.log(recordId);
   
-  // read details of record just created and log results
-  Logger.log(odooApi.readRecord(odooAuth, "crm.lead", recordId));
+  // search for record just created and log result
+  var searchFilter = [[["name", "=", projectName]]];
+  var searchResult = odooApi.searchRecord(odooAuth, "crm.lead", searchFilter)
+  Logger.log(searchResult)
+  
+  // read details of record or records based on search and log results
+  Logger.log(odooApi.readRecord(odooAuth, "crm.lead", searchResult));
+  
+  // directly search and read results based on same search criteria, but also filtering results
+  var displayFilter = {'fields': ['name', 'country_id', 'comment'], 'limit': 5}
+  Logger.log(odooApi.searchReadRecord(odooAuth, "crm.lead", searchFilter, displayFilter));
   
   // update lead email address details and log result
   var filter = {
@@ -50,8 +59,8 @@ function testOdooApi() {
   }
   Logger.log(odooApi.updateRecord(odooAuth, "crm.lead", recordId, filter));
   
-  // delete record and log result
-  Logger.log(odooApi.deleteRecord(odooAuth, "crm.lead", recordId));
+  // delete all records from search and log result
+  Logger.log(odooApi.deleteRecord(odooAuth, "crm.lead", searchResult));
 }
 ```
 
