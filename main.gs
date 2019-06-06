@@ -1,12 +1,12 @@
-/**
- * Test Connection to Odoo Database
- *
- * @param {string}  dbName the name of the database we are connecting to 
- * @param {string}  url the url of the odoo database
- * @param {integer} optional port number of database - ignore if using online
- *
- * @return {string} details of odoo version if conenction successful
- */
+/*
+Test Connection to Odoo Database
+
+@param {string}  dbName the name of the database we are connecting to 
+@param {string}  url the url of the odoo database
+@param {integer} optional port number of database - ignore if using online
+
+@return {string} details of odoo version if conenction successful
+*/
 function testConnection(dbName, url, opt_port) {
   // determine correct port method type or use one set by user
   if (opt_port == null) {
@@ -21,17 +21,17 @@ function testConnection(dbName, url, opt_port) {
   return request.send().parseXML();
 }
   
-/**
- * Authenticates User and return user id.
- *
- * @param {string}  dbName the name of the database we are connecting to 
- * @param {string}  url the url of the odoo database
- * @param {string}  username of user
- * @param {string}  password of user
- * @param {integer} optional port number of database - ignore is using online
- *
- * @return {odooAuth} object with login details
- */
+/*
+Authenticates User and return user id.
+
+@param {string}  dbName the name of the database we are connecting to 
+@param {string}  url the url of the odoo database
+@param {string}  username of user
+@param {string}  password of user
+@param {integer} optional port number of database - ignore is using online
+
+@return {odooAuth} object with login details
+*/
 function authenticateOdoo(dbName, url, username, password, opt_port) {
   // determine correct port method type or use one set by user
   if (opt_port == null) {
@@ -67,15 +67,15 @@ function authenticateOdoo(dbName, url, username, password, opt_port) {
   return odooAuth
 }
 
-/**
- * create record in odoo specified odoo object.
- *
- * @param {object} odooAuth Object
- * @param {string} the name of the object in odoo eg res.partner
- * @param {string} data row of information to be created
- *
- * @return {string} result of create request from odoo
- */
+/*
+create record in odoo specified odoo object.
+
+@param {object} odooAuth Object
+@param {string} the name of the object in odoo eg res.partner
+@param {string} data row of information to be created
+
+@return {string} result of create request from odoo
+*/
 function createRecord(odooAuth, odooObject, data) {
   
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
@@ -94,6 +94,33 @@ function createRecord(odooAuth, odooObject, data) {
   return response
 }
 
+/*
+search for record in odoo based on specified search terms
+
+@param {object} odooAuth Object
+@param {string} the name of the object in odoo eg res.partner
+@param {string} data row of information to be created
+
+@return {string} filter of search term e.g. [[("name", "=", partnerName)]]
+*/
+function searchRecord(odooAuth, odooObject, searchFilter) {
+  
+  var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
+  
+  var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
+  
+  request.addParam(odooAuth.dbName);
+  request.addParam(odooAuth.userId);
+  request.addParam(odooAuth.password);
+  
+  request.addParam(odooObject);
+  request.addParam("search");
+  request.addParam(searchFilter);
+  
+  var response = request.send().parseXML();
+  return response
+}
+
 /* Read record
 @param {object} odooAuth Object
 @param {string} the name of the object in odoo eg res.partner
@@ -101,7 +128,7 @@ function createRecord(odooAuth, odooObject, data) {
 @param {opt_filter} specific view of the items to return
 
 @return {string} result of create request from odoo 
- */
+*/
 function readRecord(odooAuth, odooObject, id, opt_filter) {
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
   var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
@@ -120,14 +147,47 @@ function readRecord(odooAuth, odooObject, id, opt_filter) {
   return response
 }
 
+
+/*
+search and read record in odoo based on specified search terms
+
+@param {object} odooAuth Object
+@param {string} the name of the object in odoo eg res.partner
+@param {object} list of search term e.g. [[("name", "=", partnerName)]]
+@param {object} optional dict of the items to return
+
+@return {string} result of odoo request
+*/
+function searchReadRecord(odooAuth, odooObject, searchFilter, opt_displayFilter) {
+  
+  var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
+  
+  var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
+  
+  request.addParam(odooAuth.dbName);
+  request.addParam(odooAuth.userId);
+  request.addParam(odooAuth.password);
+  
+  request.addParam(odooObject);
+  request.addParam("search_read");
+  request.addParam(searchFilter);
+  if (opt_displayFilter != null) {
+    request.addParam(opt_displayFilter);
+  }
+  
+  var response = request.send().parseXML();
+  return response
+}
+
+
 /* Update record
 @param {object} odooAuth Object
 @param {string} the name of the object in odoo eg res.partner
-@param {string} id of record to update
+@param {string} id of record or list of records to delete
 @param {object} dict of records to update
 
 @return {boolean} true if record updates successfully 
- */
+*/
 function updateRecord(odooAuth, odooObject, id, odooFilter) {
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
   var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
@@ -147,10 +207,10 @@ function updateRecord(odooAuth, odooObject, id, odooFilter) {
 /* Delete record
 @param {object} odooAuth Object
 @param {string} the name of the object in odoo eg res.partner
-@param {string} id of record to update
+@param {string} id of record or list of records to delete
 
 @return {integer} id of record deleted
- */
+*/
 function deleteRecord(odooAuth, odooObject, id) {
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
   var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
@@ -161,7 +221,7 @@ function deleteRecord(odooAuth, odooObject, id) {
   
   request.addParam(odooObject);
   request.addParam("unlink");
-  request.addParam([[id]]);
+  request.addParam([id]);
   
   request.send().parseXML();
   return id;
