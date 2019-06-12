@@ -226,3 +226,25 @@ function deleteRecord(odooAuth, odooObject, id) {
   request.send().parseXML();
   return id;
 }
+
+/* Get Fields
+@param {object} odooAuth Object
+@param {string} the name of the object in odoo eg res.partner
+
+@return {array} array of fields available
+*/
+function getFields(odooAuth, odooObject) {
+  var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
+  var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
+  
+  request.addParam(odooAuth.dbName);
+  request.addParam(odooAuth.userId);
+  request.addParam(odooAuth.password);
+  
+  request.addParam(odooObject);
+  request.addParam("fields_get");
+  request.addParam([]);
+  
+  var response = request.send().parseXML();
+  return response;
+}
