@@ -8,10 +8,10 @@ Example of usage in apps script:
 
 ```javascript
 function testOdooApi() {
-  var db = <database name>;
-  var url = <url of odoo installation>;
-  var usr = <admin user name>;
-  var pwd = <admin password>;
+  var db = "<database name>";
+  var url = "<url of odoo installation>";
+  var usr = "<admin user name>";
+  var pwd = "<admin password>";
   
   var projectName = "Stark Tower";
   var companyName = "Stark Industries";
