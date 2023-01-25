@@ -1,7 +1,7 @@
 # odooAppscriptApi
 
 ## Installation
-Copy both .gs files into your appscript project and call functions directly
+Copy both main.gs and XMLRPC.gs files into your appscript project and call functions directly
 
 ## Usage
 Example of usage in apps script:
