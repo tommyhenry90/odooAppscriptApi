@@ -1,4 +1,4 @@
-/*
+/* Copied from https://github.com/ikikko/Mimic-for-Google-Apps-Script/blob/master/mimic-gas.js
  * Mimic-GAS is a XML-RPC client for Google Apps Script ( based on mimic.js )
  *
  * Change Log
