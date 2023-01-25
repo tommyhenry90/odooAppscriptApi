@@ -17,7 +17,7 @@ function testConnection(dbName, url, opt_port) {
     }
   }
   var urlCommon = url + ":" + opt_port + "/xmlrpc/2/common";
-  var request = new XMLRPC.XmlRpcRequest(urlCommon, "version");
+  var request = new XmlRpcRequest(urlCommon, "version");
   return request.send().parseXML();
 }
   
@@ -44,7 +44,7 @@ function authenticateOdoo(dbName, url, username, password, opt_port) {
   var urlCommon = url + ":" + opt_port + "/xmlrpc/2/common";
   
   // Connect to odoo common end point for authentication
-  var request = new XMLRPC.XmlRpcRequest(urlCommon, "authenticate");
+  var request = new XmlRpcRequest(urlCommon, "authenticate");
   
   // add required elements to authentication call
   request.addParam(dbName); 
@@ -80,7 +80,7 @@ function createRecord(odooAuth, odooObject, data) {
   
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
   
-  var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
+  var request = new XmlRpcRequest(urlObject, "execute_kw");
   
   request.addParam(odooAuth.dbName);
   request.addParam(odooAuth.userId);
@@ -107,7 +107,7 @@ function searchRecord(odooAuth, odooObject, searchFilter) {
   
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
   
-  var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
+  var request = new XmlRpcRequest(urlObject, "execute_kw");
   
   request.addParam(odooAuth.dbName);
   request.addParam(odooAuth.userId);
@@ -131,7 +131,7 @@ function searchRecord(odooAuth, odooObject, searchFilter) {
 */
 function readRecord(odooAuth, odooObject, id, opt_filter) {
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
-  var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
+  var request = new XmlRpcRequest(urlObject, "execute_kw");
   
   request.addParam(odooAuth.dbName);
   request.addParam(odooAuth.userId);
@@ -162,7 +162,7 @@ function searchReadRecord(odooAuth, odooObject, searchFilter, opt_displayFilter)
   
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
   
-  var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
+  var request = new XmlRpcRequest(urlObject, "execute_kw");
   
   request.addParam(odooAuth.dbName);
   request.addParam(odooAuth.userId);
@@ -190,7 +190,7 @@ function searchReadRecord(odooAuth, odooObject, searchFilter, opt_displayFilter)
 */
 function updateRecord(odooAuth, odooObject, id, odooFilter) {
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
-  var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
+  var request = new XmlRpcRequest(urlObject, "execute_kw");
   
   request.addParam(odooAuth.dbName);
   request.addParam(odooAuth.userId);
@@ -213,7 +213,7 @@ function updateRecord(odooAuth, odooObject, id, odooFilter) {
 */
 function deleteRecord(odooAuth, odooObject, id) {
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
-  var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
+  var request = new XmlRpcRequest(urlObject, "execute_kw");
   
   request.addParam(odooAuth.dbName);
   request.addParam(odooAuth.userId);
@@ -235,7 +235,7 @@ function deleteRecord(odooAuth, odooObject, id) {
 */
 function getFields(odooAuth, odooObject) {
   var urlObject = odooAuth.url + ":" + odooAuth.port + "/xmlrpc/2/object";
-  var request = new XMLRPC.XmlRpcRequest(urlObject, "execute_kw");
+  var request = new XmlRpcRequest(urlObject, "execute_kw");
   
   request.addParam(odooAuth.dbName);
   request.addParam(odooAuth.userId);
